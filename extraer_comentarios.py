@@ -18,67 +18,10 @@ SOLO_PRIMER_POST = False
 
 # LISTA DE URLs A PROCESAR
 URLS_A_PROCESAR = [
-    # INSTAGRAM
-    "https://www.instagram.com/p/DOL-s8yAEpK/",
-    "https://www.instagram.com/p/DOL-vK2AEau/",
-    "https://www.instagram.com/p/DN8-4jkgPZ9/",
-    "https://www.instagram.com/p/DN8-jkkgLpv/",
-    "https://www.instagram.com/p/DOL-utugPsM/",
-    "https://www.instagram.com/p/DOL-s98gFfw/",
-    "https://www.instagram.com/p/DOL_ShzgF8e/",
-    "https://www.instagram.com/p/DOL-m7CgKdV/",
-    "https://www.instagram.com/p/DOL-mwPgJuw/",
-    "https://www.instagram.com/p/DOL-oBdgA01/",
-    "https://www.instagram.com/p/DOL-n6OAOXo/",
-    "https://www.instagram.com/p/DOL-m3ngF3N/",
-    "https://www.instagram.com/p/DOL-ms9APs0/",
-    
-    # FACEBOOK - Demo/Ads
-    "https://www.facebook.com/?feed_demo_ad=120233418145910432&h=AQCP9RxlmBjXz0LtaJAh",
-    "https://www.facebook.com/?feed_demo_ad=120233417504070432&h=AQAQCH3Rl_lce0gF0_4",
-    "https://www.facebook.com/?feed_demo_ad=120233417168840432&h=AQA4sGqS4BetjNxbaVU",
-    "https://www.facebook.com/?feed_demo_ad=120233417074240432&h=AQB06AurVyvI00lu8K4",
-    "https://www.facebook.com/?feed_demo_ad=120233054832200432&h=AQDDns3pft0Vh4Z-2iA",
-    "https://www.facebook.com/?feed_demo_ad=120233063358500432&h=AQB2gbbCcn_X0UX-hOI",
-    "https://www.facebook.com/?feed_demo_ad=120233055819280432&h=AQBgqCgBPhgHaSvBmjQ",
-    "https://www.facebook.com/?feed_demo_ad=120233418582750432&h=AQA3C-BhfkEDKjRWGuc",
-    "https://www.facebook.com/?feed_demo_ad=120233555370800432&h=AQBWtXEcnrVRvvpNVEk",
-    "https://www.facebook.com/?feed_demo_ad=120233418238300432&h=AQCshb4xg4w3aZQNhso",
-    "https://www.facebook.com/?feed_demo_ad=120233554870910432&h=AQBbgdd3MGvw9q6WCwY",
-    "https://www.facebook.com/?feed_demo_ad=120233417504070432&h=AQAQCH3Rl_lce0gF7k0",
-    "https://www.facebook.com/?feed_demo_ad=120233418145910432&h=AQCP9RxlmBjXz0LtaJA",
-    
-    # FACEBOOK - Posts
-    "https://www.facebook.com/100064867445065/posts/pfbid02tU1gU4dpz5E4hdSJQbQfHHRWQeebhrGLvGDdRwCfEENUfiJM7LBKg2ZXL8xjh6Qdl?dco_ad_id=120233418145910432",
-    "https://www.facebook.com/100064867445065/posts/pfbid09ESTvbRgHFXPvPnzu5Wuxc17mLHGzbvh3PXviVmWXTC63LtA7fwKWhoAmnoPCGLKl?dco_ad_id=120233417504070432",
-    "https://www.facebook.com/100064867445065/posts/pfbid0vhyQ3E2hLKNx7xAhucBeXJMXJQRevYeXPBqbjv8aLadNxYp5XSnYdasEHXTmTf4gl?dco_ad_id=120233417168840432",
-    "https://www.facebook.com/100064867445065/posts/pfbid02M6noi2G6CkPLtfRGQEzZw48B7i2pGmk2KrDTUixNn4inUUrxG47VFVVtsgjsVpGXl?dco_ad_id=120233417074240432",
-    "https://www.facebook.com/100064867445065/posts/pfbid04uas4JSTf7CfNJ7vygqn7LEq2kaRS43o2TgqHWuttDDG6A6DnrCLjtP2MFScAZwbl?dco_ad_id=120233054832200432",
-    "https://www.facebook.com/100064867445065/posts/pfbid0neLQsQFk4CkV8yBRRzcXEdBtA91Wt3C6RrHFz4QaUZevWDh1SzqUPCcWHiN31f3xl?dco_ad_id=120233063358500432",
-    "https://www.facebook.com/100064867445065/posts/pfbid0KRNkHEJBgq8mga9zMUZCcxGF44ZFTkDCR79aecj6UMVc1guCGFs1nxvxVMecBu8hl?dco_ad_id=120233055819280432",
-    "https://www.facebook.com/100064867445065/posts/pfbid02DMBD3zQxW4n6oSVNcbBR4CQZvuFtDVvrQTo7qBkFDnUXcCNzxzDK79rAk68C3kv5l?dco_ad_id=120233417504070432",
-    
-    # FACEBOOK - Videos
-    "https://www.facebook.com/100064867445065/videos/759074660165987",
-    "https://www.facebook.com/100064867445065/videos/646994368025589",
-    "https://www.facebook.com/100064867445065/videos/1448503073025625",
-    "https://www.facebook.com/100064867445065/videos/2033891010750740",
-    "https://www.facebook.com/100064867445065/videos/1522847888884919",
-    "https://www.facebook.com/100064867445065/videos/830303536353287",
-    
-    # TIKTOK
-    "https://www.tiktok.com/@alpinacol/video/7542657663943838983?_r=1&_t=ZS-8zoRtzUAc5A",
-    "https://www.tiktok.com/@alpinacol/video/7541457975207136530?_r=1&_t=ZS-8zoRifAKgbK",
-    "https://www.tiktok.com/@alpinacol/video/7547743186593008916?_r=1&_t=ZS-8zoReoFAugR",
-    "https://www.tiktok.com/@alpinacol/video/7548118828790664456?_r=1&_t=ZS-8zoRa8RYbDu",
-    "https://www.tiktok.com/@alpinacol/video/7547746657144720660?_r=1&_t=ZS-8zoRVpEExWM",
-    # NUEVOS 24/09/2025
-    "https://www.tiktok.com/@Alpina/video/7548130480986639632?_r=1&_t=ZS-900eQOfqR8y",
-    "https://www.tiktok.com/@Alpina/video/7548129116541685009?_r=1&_t=ZS-900eP8KESlm",
-    "https://www.tiktok.com/@Alpina/video/7548117942119042322?_r=1&_t=ZS-900eGcSaFj5",
-    "https://www.tiktok.com/@user360907502/video/7542610432733859080?_r=1&_t=ZS-900eDVc8Hkg",
-    "https://www.tiktok.com/@Alpina/video/7548130532375186696?_r=1&_t=ZS-900eA9845DE",
-    "https://www.tiktok.com/@Alpina/video/7548130486535589136?_r=1&_t=ZS-900e6AOgLwt"
+    "https://www.instagram.com/p/DOvpQZYALLC/#advertiser",
+    "https://www.facebook.com/100064867445065/posts/1223332643172306/?dco_ad_token=AaoYBMVfhWCJBU9Id_LEIes5NoZuVg_njED0P91Bvcr1fAPUVBcyLrEWsdtRdgi9Vv-W0a12rNrJYM0H&dco_ad_id=120232695832510781",
+    "https://www.instagram.com/p/DOvoGefAFeJ/#advertiser",
+    "https://www.facebook.com/100064867445065/posts/1223329536505950/?dco_ad_token=AarI6knUaWqerNU2OrP6GuMmK2pzhJwCuZrn-fiRpkbjDq6Qkk5aZXSgA3SVhvDXl5MZdjbmuG3xz0PM&dco_ad_id=120232695508510781"
 ]
 
 # INFORMACIÓN DE CAMPAÑA
@@ -300,4 +243,5 @@ def run_extraction():
 
 if __name__ == "__main__":
     run_extraction()
+
 
