@@ -60,7 +60,6 @@ def run_report_generation():
     # Realizamos los análisis sobre el DataFrame que solo contiene comentarios (df_comments)
     df_comments['sentimiento'] = df_comments['comment_text'].apply(lambda text: {"POS": "Positivo", "NEG": "Negativo", "NEU": "Neutro"}.get(sentiment_analyzer.predict(str(text)).output, "Neutro"))
     
-    # <<<--- INICIA LA NUEVA FUNCIÓN DE CLASIFICACIÓN ---<<<
     def classify_topic(comment):
         """
         Clasifica un comentario según las nuevas temáticas de la campaña de coleccionables.
@@ -98,7 +97,6 @@ def run_report_generation():
             
         # Categoría por defecto si no coincide con ninguna de las anteriores.
         return 'Otros'
-    # <<<--- TERMINA LA NUEVA FUNCIÓN DE CLASIFICACIÓN ---<<<
 
     df_comments['tema'] = df_comments['comment_text'].apply(classify_topic)
     print("Análisis completado.")
@@ -122,7 +120,7 @@ def run_report_generation():
     <html lang="es">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale-1.0">
         <title>Panel Interactivo de Campañas</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
         <style>
@@ -188,8 +186,12 @@ def run_report_generation():
             <div class="card charts-section">
                 <h2 class="section-title">Análisis General</h2>
                 <div class="charts-grid">
-                    <div class="chart-container"><canvas id="postCountChart"></canvas></div><div class="chart-container"><canvas id="sentimentChart"></canvas></div><div class="chart-container"><canvas id="topicsChart"></canvas></div>
-                    <div class="chart-container full-width"><canvas id="sentimentByTopicChart"></canvas></div><div class="chart-container full-width"><canvas id="dailyChart"></canvas></div><div class="chart-container full-width"><canvas id="hourlyChart"></canvas></div>
+                    <div class="chart-container"><canvas id="postCountChart"></canvas></div>
+                    <div class="chart-container"><canvas id="sentimentChart"></canvas></div>
+                    <div class="chart-container full-width"><canvas id="topicsChart"></canvas></div>
+                    <div class="chart-container full-width"><canvas id="sentimentByTopicChart"></canvas></div>
+                    <div class="chart-container full-width"><canvas id="dailyChart"></canvas></div>
+                    <div class="chart-container full-width"><canvas id="hourlyChart"></canvas></div>
                 </div>
             </div>
             
