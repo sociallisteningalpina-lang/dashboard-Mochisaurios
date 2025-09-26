@@ -22,9 +22,7 @@ def run_report_generation():
     df['created_time_processed'] = pd.to_datetime(df['created_time_processed'])
     df['created_time_colombia'] = df['created_time_processed'] - pd.Timedelta(hours=5)
 
-    ### MODIFICACIÓN 1 INICIA AQUÍ: LÓGICA PARA INCLUIR PAUTAS CON 0 COMENTARIOS ###
-    
-    # --- Lógica de listado de pautas (CORREGIDA) ---
+    # --- Lógica de listado de pautas ---
     # 1. Obtenemos TODAS las pautas únicas ANTES de eliminar filas sin comentarios.
     all_unique_posts = df[['post_url', 'platform']].drop_duplicates().copy()
     all_unique_posts.dropna(subset=['post_url'], inplace=True)
@@ -37,7 +35,6 @@ def run_report_generation():
     comment_counts = df_comments.groupby('post_url').size().reset_index(name='comment_count')
 
     # 4. Unimos la lista maestra de pautas con los conteos.
-    #    Usamos 'left' para mantener todas las pautas, incluso las que no tienen conteo.
     unique_posts = pd.merge(all_unique_posts, comment_counts, on='post_url', how='left')
     
     # 5. Rellenamos los NaN (pautas sin comentarios) con 0.
@@ -63,23 +60,46 @@ def run_report_generation():
     # Realizamos los análisis sobre el DataFrame que solo contiene comentarios (df_comments)
     df_comments['sentimiento'] = df_comments['comment_text'].apply(lambda text: {"POS": "Positivo", "NEG": "Negativo", "NEU": "Neutro"}.get(sentiment_analyzer.predict(str(text)).output, "Neutro"))
     
-    # <<<--- FUNCIÓN DE CLASIFICACIÓN (sin cambios) ---<<<
+    # <<<--- INICIA LA NUEVA FUNCIÓN DE CLASIFICACIÓN ---<<<
     def classify_topic(comment):
+        """
+        Clasifica un comentario según las nuevas temáticas de la campaña de coleccionables.
+        El orden de las condiciones define la prioridad de la clasificación.
+        """
         comment_lower = str(comment).lower()
-        if re.search(r'\bprecio\b|\bcu[aá]nto vale\b|d[oó]nde|c[oó]mo consigo|duda|pregunta|comprar|tiendas|disponible|sirve para|c[oó]mo se toma|tiene az[uú]car|valor', comment_lower):
-            return 'Preguntas sobre el Producto'
-        if re.search(r'b[úu]lgaros|n[oó]dulos|en casa|casero|artesanal|preparo yo|vendo el cultivo|hecho por mi', comment_lower):
-            return 'Comparación con Kéfir Casero/Artesanal'
-        if re.search(r'aditivos|almid[oó]n|preservantes|lactosa|microbiota|flora intestinal|saludable|bacterias|vivas|gastritis|colon|helicobacter|az[uú]car añadid[oa]s', comment_lower):
-            return 'Ingredientes y Salud'
-        if re.search(r'pasco|\b[eé]xito\b|\bara\b|ol[ií]mpica|d1|copia de|no lo venden|no llega|no lo encuentro|no hay en', comment_lower):
-            return 'Competencia y Disponibilidad'
-        if re.search(r'rico|bueno|excelente|gusta|mejor|delicioso|espectacular|encanta|s[úu]per|feo|horrible|mal[ií]simo|sabe a', comment_lower):
-            return 'Opinión General del Producto'
-        if re.search(r'am[eé]n|jajaja|receta|gracias|bendiciones', comment_lower) or len(comment_lower.split()) < 3:
-            return 'Fuera de Tema / No Relevante'
+
+        # Prioridad 1: Problemas de disponibilidad, canje o información.
+        if re.search(r'\bno hay\b|no se consigue|se acabar[aá]n|nadie da raz[oó]n|no saben|no llega|no lo venden|no lo encuentro', comment_lower):
+            return 'Problemas y Quejas de Disponibilidad / Canje'
+
+        # Prioridad 2: Quejas serias sobre calidad del producto o reputación de la marca.
+        if re.search(r'diarrea|explota|mala calidad|hace da[ñn]o|temu|echa como perros', comment_lower):
+            return 'Quejas sobre Calidad del Producto o Reputación'
+
+        # Prioridad 3: Críticas y feedback sobre el concepto o ejecución de la campaña/publicidad.
+        if re.search(r'basta de|p[oó]ngale ganas|como (lo|las) hac[ií]an antes|aburren|explotar.*mochis|buenas propagandas|falta de imaginaci[oó]n|se copiaron|mal[ií]sima.*idea|potencial', comment_lower):
+            return 'Críticas a la Campaña y Publicidad'
+
+        # Prioridad 4: Preguntas directas sobre cómo participar en la campaña.
+        if re.search(r'd[oó]nde puedo ver|d[oó]nde se puede|d[oó]nde se (pueden|puede) cambiar|lista de|c[oó]mo se reclaman|c[oó]mo consigo|duda|pregunta', comment_lower) or '?' in comment_lower:
+            return 'Preguntas sobre la Dinámica de la Campaña'
+
+        # Prioridad 5: Comentarios que muestran emoción, intención de compra o participación.
+        if re.search(r'maravilla|quiero+|ya tengo|voy a comprar|vamos|felicitaciones|excelente|me gusta|genial|espectacular|encanta|s[úu]per', comment_lower):
+            return 'Interés y Expectativa Positiva'
+
+        # Prioridad 6: Comentarios específicos sobre el costo del producto.
+        if re.search(r'\bprecio\b|cu[aá]nto vale|valor|caro|barato|bajen el precio', comment_lower):
+            return 'Comentarios sobre Precio'
+
+        # Prioridad 7: Filtro para interacciones sociales, spam o comentarios muy cortos.
+        if re.search(r'\bjajaja\b|\bgracias\b|bendiciones|am[eé]n|\bhola\b', comment_lower) or len(comment_lower.split()) < 4:
+            return 'Comentarios No Relevantes o Interacciones'
+            
+        # Categoría por defecto si no coincide con ninguna de las anteriores.
         return 'Otros'
-    
+    # <<<--- TERMINA LA NUEVA FUNCIÓN DE CLASIFICACIÓN ---<<<
+
     df_comments['tema'] = df_comments['comment_text'].apply(classify_topic)
     print("Análisis completado.")
 
@@ -89,11 +109,9 @@ def run_report_generation():
     df_for_json['date'] = df_for_json['date'].dt.strftime('%Y-%m-%dT%H:%M:%S')
     all_data_json = json.dumps(df_for_json.to_dict('records'))
 
-    # Las fechas min/max se calculan desde df_comments para evitar errores si no hay comentarios
+    # Las fechas min/max se calculan desde df_comments
     min_date = df_comments['created_time_colombia'].min().strftime('%Y-%m-%d') if not df_comments.empty else ''
     max_date = df_comments['created_time_colombia'].max().strftime('%Y-%m-%d') if not df_comments.empty else ''
-    
-    ### MODIFICACIÓN 1 TERMINA AQUÍ ###
     
     post_filter_options = '<option value="Todas">Ver Todas las Pautas</option>'
     for url, label in post_labels.items():
@@ -128,12 +146,9 @@ def run_report_generation():
             .pagination-controls span {{ margin: 0 10px; font-weight: bold; vertical-align: middle; }}
             .stats-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 20px; }}
             .stat-card {{ padding: 20px; text-align: center; border-left: 5px solid; }}
-            
-            /* ### MODIFICACIÓN 2: AÑADIR ESTILOS PARA LA NUEVA TARJETA ### */
             .stat-card.total {{ border-left-color: #007bff; }} .stat-card.positive {{ border-left-color: #28a745; }} .stat-card.negative {{ border-left-color: #dc3545; }} .stat-card.neutral {{ border-left-color: #ffc107; }} .stat-card.pautas {{ border-left-color: #6f42c1; }}
             .stat-number {{ font-size: 2.5em; font-weight: bold; margin-bottom: 5px; }}
             .positive-text {{ color: #28a745; }} .negative-text {{ color: #dc3545; }} .neutral-text {{ color: #ffc107; }} .total-text {{ color: #007bff; }} .pautas-text {{ color: #6f42c1; }}
-
             .charts-section, .comments-section {{ padding: 20px; }}
             .section-title {{ font-size: 1.5em; margin-bottom: 20px; text-align: center; color: #333; }}
             .charts-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }}
@@ -246,7 +261,6 @@ def run_report_generation():
                     const selectedPlatform = platformFilter.value;
                     const selectedPost = postFilter.value;
                     
-                    // ### MODIFICACIÓN 2: LÓGICA PARA CALCULAR PAUTAS A MOSTRAR ###
                     let filteredData = allData.filter(d => d.date >= startFilter && d.date <= endFilter);
                     let postsToShow = allPostsData; 
 
@@ -263,7 +277,6 @@ def run_report_generation():
                     updateCommentsList(filteredData);
                 }};
                 
-                // ### MODIFICACIÓN 2: FUNCIÓN updateStats ACTUALIZADA ###
                 const updateStats = (data, totalPosts) => {{
                     const total = data.length;
                     const sentiments = data.reduce((acc, curr) => {{ acc[curr.sentiment] = (acc[curr.sentiment] || 0) + 1; return acc; }}, {{}});
