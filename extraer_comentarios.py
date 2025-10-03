@@ -18,6 +18,7 @@ SOLO_PRIMER_POST = False
 
 # LISTA DE URLs A PROCESAR
 URLS_A_PROCESAR = [
+    "https://www.tiktok.com/@alpinacol/video/7554409105977330965?_r=1&_t=ZS-90FEozcPDkt",
     "https://www.instagram.com/p/DOvpQZYALLC/#advertiser",
     "https://www.facebook.com/100064867445065/posts/1223332643172306/?dco_ad_token=AaoYBMVfhWCJBU9Id_LEIes5NoZuVg_njED0P91Bvcr1fAPUVBcyLrEWsdtRdgi9Vv-W0a12rNrJYM0H&dco_ad_id=120232695832510781",
     "https://www.instagram.com/p/DOvoGefAFeJ/#advertiser",
@@ -243,5 +244,6 @@ def run_extraction():
 
 if __name__ == "__main__":
     run_extraction()
+
 
 
