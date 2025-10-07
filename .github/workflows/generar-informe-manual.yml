@@ -1,0 +1,30 @@
+# Nombre del nuevo workflow, aparecerá en la pestaña "Actions"
+name: 'Generar Informe Manualmente'
+
+# Esto hace que solo se pueda activar manualmente
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-report-only:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Descargar el código del repositorio
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Usamos la misma versión que tu otro workflow
+
+      - name: 3. Instalar las librerías necesarias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 4. Ejecutar SÓLO la generación del informe
+        env:
+          # Añade aquí los secrets que tu script necesite, si es que necesita alguno
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: python generar_informe.py
