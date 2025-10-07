@@ -12,7 +12,7 @@ def run_report_generation():
     print("--- INICIANDO GENERACIÓN DE INFORME HTML ---")
     
     try:
-        df = pd.read_excel('dashboard-Mochisaurios/Comentarios Campaña.xlsx')
+        df = pd.read_excel('Comentarios Campaña.xlsx')
         print("Archivo 'Comentarios Campaña.xlsx' cargado con éxito.")
     except FileNotFoundError:
         print("❌ ERROR: No se encontró el archivo 'Comentarios Campaña.xlsx'.")
@@ -389,4 +389,5 @@ def run_report_generation():
 
 if __name__ == "__main__":
     run_report_generation()
+
 
