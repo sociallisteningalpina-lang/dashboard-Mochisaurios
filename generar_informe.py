@@ -74,7 +74,7 @@ def run_report_generation():
     
         # Prioridad 2: Quejas sobre Calidad del Producto o Reputación del Producto/Marca
         if re.search(r'diarrea|explota|mala calidad|hace da[ñn]o|temu|echa como perros|huelen horrible|textura.*fea|se ensucia re facil|porqueria|no es saludable|se los r\*oban|empresa mala con los empleados|unicornio|cocodrilo|mismo caracol amarillo', comment_lower):
-            return 'Quejas sobre Calidad del Producto o Reputación'
+            return 'Quejas sobre Calidad del Producto'
     
         # Prioridad 3: Problemas y Quejas de Disponibilidad / Canje (incluye dificultades de encontrar, canjear o problemas de stock)
         if re.search(r'\bno hay\b|no se consigue|se acabar[aá]n|nadie da raz[oó]n|no saben c[oó]mo|no llega|no lo venden|no lo encuentro|no (lo|los) dan|recort[oó] mal|sin c[oó]digo|repetidos|dif[ií]cil de conseguir|pasa lo mismo|sin oxxo|lejos|mucha vaina pa eso|filas|no est[aá]n|no hay todav[ií]a|no tiene idea|colecci[oó]n pasada|no tienen|d[oó]nde yo estoy no|que belleza el oxxo m[aá]s sercano lo tengo a 2 horas', comment_lower):
@@ -399,6 +399,7 @@ def run_report_generation():
 
 if __name__ == "__main__":
     run_report_generation()
+
 
 
 
