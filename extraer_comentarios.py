@@ -40,6 +40,7 @@ URLS_A_PROCESAR = [
     "https://www.facebook.com/100064867445065/posts/pfbid0FYKCe48cTUk7PTovG7mRCXJNoJxHjuWzHkubjJynpp56coBN94Z4MsydinRhsdY2l/",
     "https://www.facebook.com/100064867445065/posts/pfbid0kxitPyWG59s1ndtcyX5oxFxEvQnaESseNwRDJKYrmH5U4SEhMM5hVXnTxNsuhUBLl/",
     "https://www.facebook.com/100064867445065/posts/pfbid0oa63XdvnxKav3FonzmCLiFVyRRSwnnVtZmvu9GhfKGEaU3zkYNV4P2QLYh3QAGm4l/",
+    "https://adsmanager.facebook.com/adsmanager/manage/ads?act=827569291484179&business_id=1527284254245944",
     
     # --- Instagram ---
     "https://www.instagram.com/p/DPz5b-aAAcc/",
@@ -64,6 +65,8 @@ URLS_A_PROCESAR = [
     "https://www.tiktok.com/@alpinacol/video/7563734723755838721",
     "https://www.tiktok.com/@alpinacol/video/7561443917086952722",
     "https://www.tiktok.com/@alpinacol/video/7554409105977330965",
+    "https://vt.tiktok.com/ZSyFwgVhY/",
+    "https://vt.tiktok.com/ZSyFwqXup/",
 ]
 
 # INFORMACIÓN DE CAMPAÑA
@@ -285,6 +288,7 @@ def run_extraction():
 
 if __name__ == "__main__":
     run_extraction()
+
 
 
 
