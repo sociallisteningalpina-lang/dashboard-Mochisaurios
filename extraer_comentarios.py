@@ -67,6 +67,23 @@ URLS_A_PROCESAR = [
     "https://www.tiktok.com/@alpinacol/video/7554409105977330965",
     "https://vt.tiktok.com/ZSyFwgVhY/",
     "https://vt.tiktok.com/ZSyFwqXup/",
+    # --- Nuevos Facebook ---
+    "https://www.facebook.com/100064867445065/posts/1261438182695085/",
+    "https://www.facebook.com/100064867445065/posts/1248085687363668/",
+    "https://www.facebook.com/100064867445065/posts/1250913720414198/",
+    "https://www.facebook.com/100064867445065/posts/1260798862759017/",
+    "https://www.facebook.com/100064867445065/posts/1262395169266053/",
+
+# --- Nuevos Instagram ---
+    "https://www.instagram.com/p/DQsEGxpgGJF/",
+    "https://www.instagram.com/p/DQsEHa6AOmk/",
+    "https://www.instagram.com/p/DQsEG9ygEvM/",
+    "https://www.instagram.com/p/DQt3JdvACtQ/",
+    "https://www.instagram.com/p/DQsEG68ABQP/",
+    "https://www.instagram.com/p/DQsEGoCACUp/",
+    "https://www.instagram.com/p/DQsEHJkgCuw/",
+    "https://www.instagram.com/p/DQcdoNmAF9E/",
+
 ]
 
 # INFORMACIÓN DE CAMPAÑA
@@ -288,6 +305,7 @@ def run_extraction():
 
 if __name__ == "__main__":
     run_extraction()
+
 
 
 
