@@ -59,27 +59,53 @@ def run_report_generation():
     df_comments['sentimiento'] = df_comments['comment_text'].apply(lambda text: {"POS": "Positivo", "NEG": "Negativo", "NEU": "Neutro"}.get(sentiment_analyzer.predict(str(text)).output, "Neutro"))
     
     def classify_topic(comment):
-        comment_lower = str(comment).lower()
+    comment_lower = str(comment).lower()
     
-        if re.search(r'\bprecio\b|\bcu[aá]nto vale\b|d[oó]nde|c[oó]mo consigo|duda|pregunta|comprar|tiendas|disponible|sirve para|c[oó]mo se toma|tiene az[uú]car|valor', comment_lower):
-            return 'Preguntas sobre el Producto'
+    # Preguntas sobre cómo obtener/reclamar los Mochisaurios
+    if re.search(r'c[oó]mo (consigo|obten[ge]o|reclam[ao]|se (hace|consigue|reclama))|d[oó]nde (consigo|obten[ge]o|reclam[ao]|se (consigue|reclama|adquiere))|cu[aá]ntos logos|cu[aá]ntos (motivos|mochis)|[aá]lbum|gu[ií]a|pasos para|c[oó]mo (se|lo) (reclam[ao]|consigo)', comment_lower):
+        return 'Preguntas sobre Mecánica de Canje'
     
-        if re.search(r'b[úu]lgaros|n[oó]dulos|en casa|casero|artesanal|preparo yo|vendo el cultivo|hecho por mi', comment_lower):
-            return 'Comparación con Kéfir Casero/Artesanal'
+    # Problemas con OXXO (disponibilidad, ubicación, etc.)
+    if re.search(r'oxxo|no hay oxxo|en mi ciudad no hay|d[oó]nde est[aá] el oxxo|oxxo (cercano|m[aá]s cerca|autorizado)|no (hay|existe|tienen) en|en .+ no hay', comment_lower):
+        return 'Disponibilidad OXXO / Cobertura Geográfica'
     
-        if re.search(r'aditivos|almid[oó]n|preservantes|lactosa|microbiota|flora intestinal|saludable|bacterias|vivas|gastritis|colon|helicobacter|az[uú]car añadid[oa]s', comment_lower):
-            return 'Ingredientes y Salud'
+    # Problemas con el canje/reclamación
+    if re.search(r'no (me lo dieron|quisieron|aceptaron|recibieron)|recort[eé] mal|no (saben|tienen idea)|perd[ií] (los )?logos|ya se acab[oó]|no (llega(ron)?|hay|tienen)|fui al oxxo y|no me los (cambian|dan)', comment_lower):
+        return 'Problemas en el Proceso de Canje'
     
-        if re.search(r'pasco|\b[eé]xito\b|\bara\b|ol[ií]mpica|d1|copia de|no lo venden|no llega|no lo encuentro|no hay en', comment_lower):
-            return 'Competencia y Disponibilidad'
+    # Disponibilidad del producto/Mochisaurios
+    if re.search(r'no (se consigue|encuentro|hay)|agotad[oa]s?|escas[oa]s?|ya se acab[oó]|muy r[aá]pid[oa]|todos repetidos|no (me )?sal[eií]|me sali[oó] (repetido|de la colecci[oó]n pasada|un unicornio)', comment_lower):
+        return 'Disponibilidad de Productos/Figuras'
     
-        if re.search(r'rico|bueno|excelente|gusta|mejor|delicioso|espectacular|encanta|s[úu]per|feo|horrible|mal[ií]simo|sabe a', comment_lower):
-            return 'Opinión General del Producto'
+    # Quejas sobre complejidad del proceso
+    if re.search(r'mucha (cosa|gesti[oó]n|vaina|vuelta)|tant[oa] (cosa|trabajo)|muy complicado|mucho trabajo|demasiado costoso|m[aá]s f[aá]cil|mejor (compro|me compro)|sale m[aá]s (f[aá]cil|barato)|que pereza', comment_lower):
+        return 'Complejidad del Proceso de Canje'
     
-        if re.search(r'am[eé]n|jajaja|receta|gracias|bendiciones', comment_lower) or len(comment_lower.split()) < 3:
-            return 'Fuera de Tema / No Relevante'
+    # Opiniones sobre los Mochisaurios (positivas y negativas)
+    if re.search(r'(me |los )?encanta(n)?|am[oó]|hermoso|lind[oa]s?|bonit[oa]s?|(me |le )gusta(n)?|ador[oó]|belleza|maravillos[oa]|horrible|feo|pat[eé]tic[oa]s?|mala calidad|huelen (horrible|mal)|se ensucia|mejor los (de antes|anteriores|originales)', comment_lower):
+        return 'Opinión sobre los Mochisaurios'
     
-        return 'Otros'
+    # Comparación con promociones anteriores
+    if re.search(r'vuelvan (los|a los) (originales|de antes|anteriores)|mejor (antes|los de antes)|ya no es lo mismo|mini ?mochis|ilumimochis|colecci[oó]n (pasada|anterior)|paleta dr[aá]cula|goku|futbolistas|dioses del olimpo', comment_lower):
+        return 'Comparación con Promociones Anteriores'
+    
+    # Comentarios sobre salud/ingredientes
+    if re.search(r'veneno|mierda|basura|da diarrea|no es saludable|qu[ií]micos|da[ñn]in[oa]|mal[oa] para|product[oa] mal[oa]|explota|masones|dinosaurios (no|nunca) existieron', comment_lower):
+        return 'Preocupaciones sobre Salud/Críticas al Producto'
+    
+    # Coleccionistas activos (mostrando su colección)
+    if re.search(r'(ya )?tengo \d+|colecci[oó]n completa|me falta(n)? \d+|llevo \d+|ya (los )?tengo (todos|muchos)|mira mi colecci[oó]n|fan suy[oa]s?', comment_lower):
+        return 'Coleccionistas / Progreso de Colección'
+    
+    # Solicitudes/pedidos a la marca
+    if re.search(r'alpina (me )?(mand[ae]n?|regal[ae]n?|env[ií]en?)|quiero (una )?caja|pueden (sacar|quitar|volver)|saquen (ya )?otra|vuelvan a (sacar|poner)|porf[ia]s? (saquen|vuelvan)', comment_lower):
+        return 'Solicitudes/Peticiones a la Marca'
+    
+    # Spam, off-topic, irrelevante
+    if re.search(r'am[eé]n|jaja|wifi|contrase[ñn]a|femboy|wicked|instagram de la chica|team negro|hielocos|sticker', comment_lower) or len(comment_lower.split()) < 3:
+        return 'Fuera de Tema / Spam'
+    
+    return 'Otros'
 
     df_comments['tema'] = df_comments['comment_text'].apply(classify_topic)
     print("Análisis completado.")
@@ -484,5 +510,6 @@ def run_report_generation():
 
 if __name__ == "__main__":
     run_report_generation()
+
 
 
